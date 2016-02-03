@@ -21,6 +21,9 @@
 	NetworkTables websocket: <span id="connectstate">Unknown state</span><br/>
 	Robot: <span id="robotstate">Unknown state</span>
 </div>
+
+<div id="range_finder">Range Finder: <span>0.0</span></div>
+<div id="gyro">Robot Heading: <span>0.0</span></div>
 <hr/>
 
 <table id="nt" border=1>
@@ -39,6 +42,7 @@ $(document).ready(function(){
 
 	// sets a function that will be called when any NetworkTables key/value changes
 	NetworkTables.addGlobalListener(onValueChanged, true);
+
 });
 function onRobotConnection(connected) {
 	$('#robotstate').text(connected ? "Connected!" : "Disconnected");
@@ -59,7 +63,7 @@ function onValueChanged(key, value, isNew) {
 	// the id of the elements that we're appending, for simplicity. However,
 	// the key names aren't always valid HTML identifiers, so we use
 	// the NetworkTables.keyToId() function to convert them appropriately
-	if (isNew) {
+	/*if (isNew) {
 		var tr = $('<tr></tr>').appendTo($('#nt > tbody:last'));
 		$('<td></td>').text(key).appendTo(tr);
 		$('<td></td>').attr('id', NetworkTables.keyToId(key))
@@ -70,7 +74,15 @@ function onValueChanged(key, value, isNew) {
 		// similarly, use keySelector to convert the key to a valid jQuery
 		// selector. This should work for class names also, not just for ids
 		$('#' + NetworkTables.keySelector(key)).text(value);
-	}
+	}*/
+    switch (key) {
+        case "/SmartDashboard/range_finder":
+            $('#range_finder span').text(parseInt(value));
+            break;
+        case "/SmartDashboard/gyro":
+            $('#gyro span').text(value);
+            break;
+    }
 }
 </script>
 
