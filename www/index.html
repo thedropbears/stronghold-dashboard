@@ -17,23 +17,28 @@
      that d3.js and jQuery are included first -->
 <!-- <script src="/networktables/utils.js"></script> -->
 
-<div>
-	NetworkTables websocket: <span id="connectstate">Unknown state</span><br/>
-	Robot: <span id="robotstate">Unknown state</span>
+<div class="Area" id="left-box">
+    <div id="text-data">
+        <a href="debug.html">Debugging Page</a>
+        <div>
+            Robot: <span id="robotstate">Unknown state</span>
+        </div>
+        <div id="range_finder">Range Finder: <span>0.0</span></div>
+        <div id="gyro">Robot Heading: <span>0.0</span></div>
+        <div id="vision_x">Vision X: <span>0.0</span></div>
+    </div>
+    <img src="res/img/logo.png" id="logo"></a>
 </div>
 
-<div id="range_finder">Range Finder: <span>0.0</span></div>
-<div id="gyro">Robot Heading: <span>0.0</span></div>
-<div id="vision_x">Vision X: <span>0.0</span></div>
-<div id="vision-display-container">
-    <div id="vision-display-robot"></div>
+<div class="Area" id="right-box">
+    <div id="position-display">
+        <p id="position-display-title">Robot Relative to Target</p>
+        <div id="position-display-container">
+            <div id="position-display-robot"></div>
+            </div>
+        </div>
+    </div>
 </div>
-<hr/>
-
-<table id="nt" border=1>
-	<tbody></tbody>
-</table>
-
 
 <script type="text/javascript">
 "use strict";
@@ -67,22 +72,6 @@ function onNetworkTablesConnection(connected) {
 	}
 }
 function onValueChanged(key, value, isNew) {
-	// key thing here: we're using the various NetworkTable keys as
-	// the id of the elements that we're appending, for simplicity. However,
-	// the key names aren't always valid HTML identifiers, so we use
-	// the NetworkTables.keyToId() function to convert them appropriately
-	/*if (isNew) {
-		var tr = $('<tr></tr>').appendTo($('#nt > tbody:last'));
-		$('<td></td>').text(key).appendTo(tr);
-		$('<td></td>').attr('id', NetworkTables.keyToId(key))
-					   .text(value)
-					   .appendTo(tr);
-	} else {
-
-		// similarly, use keySelector to convert the key to a valid jQuery
-		// selector. This should work for class names also, not just for ids
-		$('#' + NetworkTables.keySelector(key)).text(value);
-	}*/
     switch (key) {
         case "/SmartDashboard/range_finder":
             $('#range_finder span').text(parseInt(value));
@@ -99,7 +88,7 @@ function onValueChanged(key, value, isNew) {
 }
 
 function change_robot_range(dist) {
-    var robot = document.getElementById("vision-display-robot");
+    var robot = document.getElementById("position-display-robot");
     var xpos = (dist-200.0)/200.0;
     if (xpos >= 1.0){
         xpos = 1.0;
@@ -109,14 +98,14 @@ function change_robot_range(dist) {
 }
 
 function change_robot_strafe_pos(vision_x){
-    var robot = document.getElementById("vision-display-robot");
+    var robot = document.getElementById("position-display-robot");
     var ypos = vision_x*5.0-0.5+5.0;
     robot.style.left = ypos + "vw";
 }
 
 function rotate_robot(heading) {
     heading = -heading // turn from ccw to clockwise
-    var robot = document.getElementById("vision-display-robot");
+    var robot = document.getElementById("position-display-robot");
     robot.style.transform = ("rotate(" + heading + "rad)")
 }
 </script>
