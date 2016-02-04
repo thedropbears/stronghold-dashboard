@@ -10,7 +10,8 @@
 .Area {
     border-style: solid;
     border-color: gray;
-    border-width: 3px;
+    border-width: 0.3vw;
+    border-radius: 10px;
 }
 
 #logo {
@@ -22,7 +23,7 @@
 
 #left-box {
     position:absolute;
-    left: 2vw;
+    left: 1vw;
     top: 1vh;
 
     width: 20vw;
@@ -31,9 +32,9 @@
 
 #right-box {
     position:absolute;
-    left: 21.5vw;
+    left: 22.5vw;
     top: 1vh;
-    width: 76.5vw;
+    width: 75.9vw;
     height: 97vh;
 }
 
@@ -63,7 +64,7 @@
 
 #position-display-robot {
     width: 1vw;
-    height: 1vw;
+    height: 1.5vw;
     position:relative;
     background-color:blue;
     top = 5vw;
