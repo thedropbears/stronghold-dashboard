@@ -24,6 +24,10 @@
 
 <div id="range_finder">Range Finder: <span>0.0</span></div>
 <div id="gyro">Robot Heading: <span>0.0</span></div>
+<div id="vision_x">Vision X: <span>0.0</span></div>
+<div id="vision-display-container">
+    <div id="vision-display-robot"></div>
+</div>
 <hr/>
 
 <table id="nt" border=1>
@@ -42,6 +46,10 @@ $(document).ready(function(){
 
 	// sets a function that will be called when any NetworkTables key/value changes
 	NetworkTables.addGlobalListener(onValueChanged, true);
+
+    change_robot_range(200.0);
+    change_robot_strafe_pos(0.0);
+    rotate_robot(0.0);
 
 });
 function onRobotConnection(connected) {
@@ -78,11 +86,38 @@ function onValueChanged(key, value, isNew) {
     switch (key) {
         case "/SmartDashboard/range_finder":
             $('#range_finder span').text(parseInt(value));
+            change_robot_range(value);
             break;
         case "/SmartDashboard/gyro":
             $('#gyro span').text(value);
+            rotate_robot(value);
             break;
+        case "/SmartDashboard/vision_x":
+            $('#vision_x span').text(value);
+            change_robot_stafe_pos(value);
     }
+}
+
+function change_robot_range(dist) {
+    var robot = document.getElementById("vision-display-robot");
+    var xpos = (dist-200.0)/200.0;
+    if (xpos >= 1.0){
+        xpos = 1.0;
+    }
+    xpos = xpos*5+5.0-0.5;
+    robot.style.top = xpos + "vw";
+}
+
+function change_robot_strafe_pos(vision_x){
+    var robot = document.getElementById("vision-display-robot");
+    var ypos = vision_x*5.0-0.5+5.0;
+    robot.style.left = ypos + "vw";
+}
+
+function rotate_robot(heading) {
+    heading = -heading // turn from ccw to clockwise
+    var robot = document.getElementById("vision-display-robot");
+    robot.style.transform = ("rotate(" + heading + "rad)")
 }
 </script>
 

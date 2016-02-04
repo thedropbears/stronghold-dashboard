@@ -2,3 +2,19 @@
 .OperatorUI {
     background-color:white
 }
+
+#vision-display-container {
+    width: 10vw;
+    height: 10vw;
+    position: absolute;
+    background:#cccccc;
+}
+
+#vision-display-robot {
+    width: 1vw;
+    height: 1vw;
+    position:relative;
+    background-color:blue;
+    top = 5vw;
+    left = 5vw;
+}
