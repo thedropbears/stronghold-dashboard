@@ -52,9 +52,9 @@ $(document).ready(function(){
 	// sets a function that will be called when any NetworkTables key/value changes
 	NetworkTables.addGlobalListener(onValueChanged, true);
 
-    change_robot_range(200.0);
-    change_robot_strafe_pos(0.0);
-    rotate_robot(0.0);
+    //change_robot_range(200.0);
+    //change_robot_strafe_pos(0.0);
+    //rotate_robot(0.0);
 
 });
 function onRobotConnection(connected) {
@@ -83,13 +83,14 @@ function onValueChanged(key, value, isNew) {
             break;
         case "/SmartDashboard/vision_x":
             $('#vision_x span').text(value);
-            change_robot_stafe_pos(value);
+            change_robot_strafe_pos(value);
+            break;
     }
 }
 
 function change_robot_range(dist) {
     var robot = document.getElementById("position-display-robot");
-    var xpos = (dist-200.0)/200.0;
+    var xpos = (dist-2.0)/2.0;
     if (xpos >= 1.0){
         xpos = 1.0;
     }
@@ -98,9 +99,12 @@ function change_robot_range(dist) {
 }
 
 function change_robot_strafe_pos(vision_x){
+    vision_x = -vision_x
+    if(vision_x >= -1.0 && vision_x <= 1.0) {
     var robot = document.getElementById("position-display-robot");
     var ypos = vision_x*5.0-0.5+5.0;
     robot.style.left = ypos + "vw";
+    }
 }
 
 function rotate_robot(heading) {
