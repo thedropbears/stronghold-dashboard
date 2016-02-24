@@ -38,6 +38,8 @@
     Max Value: <input type="text" id="graph-max-val" value="1.0"><br/>
     Buff Len:  <input type="text" id="graph-buffer-length" value="1000"><br/>
     <input id="graph-button" type="button" value="Graph" onclick="restartGraph();" />
+    <input id="graph-toggle-button" type="button" value="Toggle Updating" onclick="toggleGraphing();" />
+
 </div>
 
 
@@ -59,6 +61,7 @@ var line
 var x;
 var y;
 var plotVariable;
+var graphing = true;
 function onRobotConnection(connected) {
 	$('#robotstate').text(connected ? "Connected!" : "Disconnected");
 }
@@ -72,6 +75,10 @@ function onNetworkTablesConnection(connected) {
 	} else {
 		$("#connectstate").text("Disconnected!");
 	}
+}
+
+function toggleGraphing() {
+    graphing = !graphing;
 }
 
 function restartGraph() {
@@ -138,7 +145,7 @@ function onValueChanged(key, value, isNew) {
 	// the id of the elements that we're appending, for simplicity. However,
 	// the key names aren't always valid HTML identifiers, so we use
 	// the NetworkTables.keyToId() function to convert them appropriately
-    if(key == "/SmartDashboard/"+plotVariable) {
+    if(key == "/SmartDashboard/"+plotVariable && graphing) {
         tick(value);
     }
 
