@@ -49,6 +49,8 @@
 <script type="text/javascript">
 "use strict";
 
+var target_range = 2.0;
+
 var vision_x = 1.0;
 var range = 5.0;
 $(document).ready(function(){
@@ -109,7 +111,7 @@ function onValueChanged(key, value, isNew) {
 
 function updateOnTarget(){
     var onTargetDiv = document.getElementById("ontarget");
-    if(vision_x < 0.05 && Math.abs(range-2.0) < 0.1) {
+    if(vision_x < 0.05 && Math.abs(range-target_range) < 0.1) {
         onTargetDiv.style.backgroundColor = "green";
     } else {
         onTargetDiv.style.backgroundColor = "red";
@@ -118,7 +120,7 @@ function updateOnTarget(){
 
 function change_robot_range(dist) {
     var robot = document.getElementById("position-display-robot");
-    var xpos = (dist-2.0)/2.0;
+    var xpos = (dist-target_range)/target_range;
     if (xpos >= 1.0){
         xpos = 1.0;
     }
