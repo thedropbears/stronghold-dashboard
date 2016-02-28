@@ -41,10 +41,16 @@
     </div>
     <select id="auto-choice">
     </select>
+    <div id="ontarget">
+            SHOOT?
+    </div>
 </div>
 
 <script type="text/javascript">
 "use strict";
+
+var vision_x = 1.0;
+var range = 5.0;
 $(document).ready(function(){
 	// sets a function that will be called when the websocket connects/disconnects
 	NetworkTables.addWsConnectionListener(onNetworkTablesConnection, true);
@@ -79,6 +85,7 @@ function onValueChanged(key, value, isNew) {
         case "/SmartDashboard/range_finder":
             $('#range_finder span').text(Number((value)).toFixed(1));
             change_robot_range(value);
+            range = value;
             break;
         case "/SmartDashboard/gyro":
             $('#gyro span').text((Number((value)).toFixed(1)));
@@ -87,6 +94,7 @@ function onValueChanged(key, value, isNew) {
         case "/SmartDashboard/vision_x":
             $('#vision_x span').text((Number((value)).toFixed(1)));
             change_robot_strafe_pos(value);
+            vision_x = value;
             break;
         case "/SmartDashboard/Autonomous Mode/options":
         case "/SmartDashboard/Autonomous Mode/default":
@@ -94,6 +102,17 @@ function onValueChanged(key, value, isNew) {
             updateChooser('#auto-choice', '/SmartDashboard/Autonomous Mode');
             break;
 
+    }
+
+    updateOnTarget();
+}
+
+function updateOnTarget(){
+    var onTargetDiv = document.getElementById("ontarget");
+    if(vision_x < 0.05 && Math.abs(range-2.0) < 0.1) {
+        onTargetDiv.style.backgroundColor = "green";
+    } else {
+        onTargetDiv.style.backgroundColor = "red";
     }
 }
 
