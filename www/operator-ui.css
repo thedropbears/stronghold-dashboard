@@ -104,3 +104,11 @@
     top = 5vw;
     left = 5vw;
 }
+
+.camera-img-class {
+    position: fixed;
+    left: 3vw;
+    top: 13vh;
+    width: 16.9vw;
+    height: 13.975vw;
+}
