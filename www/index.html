@@ -28,6 +28,15 @@
         <div id="gyro">Robot Heading: <span>0.0</span></div>
         <div id="vision_x">Vision X: <span>0.0</span></div>
     </div>
+    <div id="ontarget" class="StatusDisplay">
+        SHOOT?
+    </div>
+    <div id="intakespeed" class="StatusDisplay">
+        INTAKE:<div id="intakestate">NO BALL</div>
+    </div>
+    <div id="shooterspeed" class="StatusDisplay">
+        SHOOTER STATUS
+    </div>
     <img src="res/img/logo.png" id="logo"></a>
 </div>
 
@@ -44,9 +53,6 @@
     </div>
     <select id="auto-choice">
     </select>
-    <div id="ontarget">
-            SHOOT?
-    </div>
 </div>
 
 <script type="text/javascript">
@@ -56,6 +62,19 @@ var target_range = 2.0;
 
 var vision_x = 1.0;
 var range = 5.0;
+var shooter_speed = 0.0;
+var intake_state = 0;
+var intake_speed = 0.0;
+var intake_states = {};
+intake_states["0"] = "NO BALL";
+intake_states["11"] = "BACKDRIVING FAST";
+intake_states["12"] = "BACKDRIVING SLOWLY";
+intake_states["1"] = "SPINNING UP";
+intake_states["10"] = "READY TO INTAKE";
+intake_states["2"] = "BALL DETECTED";
+intake_states["4"] = "PINNING BALL";
+intake_states["5"] = "BALL HELD AUTONOMOUSLY";
+intake_states["6"] = "SHOTS FIRED!";
 $(document).ready(function(){
 	// sets a function that will be called when the websocket connects/disconnects
 	NetworkTables.addWsConnectionListener(onNetworkTablesConnection, true);
@@ -101,6 +120,15 @@ function onValueChanged(key, value, isNew) {
             change_robot_strafe_pos(value);
             vision_x = value;
             break;
+        case "/SmartDashboard/intake_state":
+            intake_state = value;
+            break;
+        case "/SmartDashboard/intake_speed":
+            intake_speed = value;
+            break;
+        case "/SmartDashboard/shooter_speed":
+            shooter_speed = value;
+            break;
         case "/SmartDashboard/Autonomous Mode/options":
         case "/SmartDashboard/Autonomous Mode/default":
         case "/SmartDashboard/Autonomous Mode/selected":
@@ -109,15 +137,36 @@ function onValueChanged(key, value, isNew) {
 
     }
 
-    updateOnTarget();
+    updateDisplays();
 }
 
-function updateOnTarget(){
+function updateDisplays(){
     var onTargetDiv = document.getElementById("ontarget");
     if(vision_x < 0.05 && Math.abs(range-target_range) < 0.1) {
         onTargetDiv.style.backgroundColor = "green";
     } else {
         onTargetDiv.style.backgroundColor = "red";
+    }
+
+    var intakeSpeedDiv = document.getElementById("intakespeed");
+    if(intake_speed == 0.0) {
+        intakeSpeedDiv.style.backgroundColor = "orange";
+    } else if (intake_speed > 0.0) {
+        intakeSpeedDiv.style.backgroundColor = "green";
+    } else {
+        intakeSpeedDiv.style.backgroundColor = "red";
+    }
+
+    document.getElementById("intakestate").innerHTML = intake_states[intake_state.toString()]; 
+
+    var shooterSpeedDiv = document.getElementById("shooterspeed");
+
+    if(shooter_speed == 0.0) {
+        shooterSpeedDiv.style.backgroundColor = "orange";
+    } else if (shooter_speed > 0.0) {
+        shooterSpeedDiv.style.backgroundColor = "green";
+    } else {
+        shooterSpeedDiv.style.backgroundColor = "red";
     }
 }
 
@@ -127,7 +176,7 @@ function change_robot_range(dist) {
     if (xpos >= 1.0){
         xpos = 1.0;
     }
-    xpos = xpos*5+5.0-1.0;
+    xpos = xpos*10.0+10.0-1.0;
     robot.style.top = xpos + "vw";
 }
 
@@ -135,7 +184,7 @@ function change_robot_strafe_pos(vision_x){
     vision_x = -vision_x
     if(vision_x >= -1.0 && vision_x <= 1.0) {
     var robot = document.getElementById("position-display-robot");
-    var ypos = vision_x*5.0-0.5+5.0;
+    var ypos = vision_x*10.0-0.75+10.0;
     robot.style.left = ypos + "vw";
     }
 }
