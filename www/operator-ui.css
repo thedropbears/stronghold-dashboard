@@ -15,16 +15,16 @@
 }
 
 #auto-choice {
-    position:relative;
+    position:absolute;
     left: 25vw;
-    top: 50vh;
+    top: 75vh;
 }
 
 #logo {
-    position:relative;
+    position:absolute;
     left:20%;
     width:65%;
-    top:37vh;
+    top:67vh;
 }
 
 #ontarget {
