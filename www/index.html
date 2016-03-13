@@ -76,6 +76,12 @@ intake_states["4"] = "PINNING BALL";
 intake_states["5"] = "BALL HELD AUTONOMOUSLY";
 intake_states["6"] = "SHOTS FIRED!";
 $(document).ready(function(){
+    var $autoSelector = $("#auto-choice");
+    $autoSelector.change(function(event) {
+            event.preventDefault();
+            var val = $autoSelector.find("option:selected").text();
+            NetworkTables.setValue("/SmartDashboard/Autonomous Mode/selected", val);
+    });
 	// sets a function that will be called when the websocket connects/disconnects
 	NetworkTables.addWsConnectionListener(onNetworkTablesConnection, true);
 
