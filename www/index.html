@@ -37,7 +37,8 @@
     <div id="shooterspeed" class="StatusDisplay">
         SHOOTER STATUS
     </div>
-    <img src="res/img/logo.png" id="logo"></a>
+    <!-- <img src="res/img/logo.png" id="logo"></a> -->
+    <img src="res/img/towards-enemy.png" id="heading"></a>
 </div>
 
 <div class="Area" id="right-box">
@@ -120,6 +121,7 @@ function onValueChanged(key, value, isNew) {
         case "/SmartDashboard/gyro":
             $('#gyro span').text((Number((value)).toFixed(1)));
             rotate_robot(value);
+            rotate_compass(value);
             break;
         case "/SmartDashboard/vision_x":
             $('#vision_x span').text((Number((value)).toFixed(1)));
@@ -198,6 +200,12 @@ function change_robot_strafe_pos(vision_x){
 function rotate_robot(heading) {
     heading = -heading // turn from ccw to clockwise
     var robot = document.getElementById("position-display-robot");
+    robot.style.transform = ("rotate(" + heading + "rad)")
+}
+
+function rotate_compass(heading) {
+    heading = -heading + 3.14159 // turn from ccw to clockwise
+    var robot = document.getElementById("heading");
     robot.style.transform = ("rotate(" + heading + "rad)")
 }
 
