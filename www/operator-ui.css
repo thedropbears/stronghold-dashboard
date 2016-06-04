@@ -125,15 +125,15 @@
 
 #vision-camera-img {
   left: 57.5vw;
-  top:  26vw;
-  width: 32vw;
-  height: 24vw;
+  top:  50vh;
+  width: 57.6vh;
+  height: 43.2vh;
 }
 
 .camera-img-class {
     position: fixed;
     left: 57.5vw;
     top: 3vh;
-    width: 32vw;
-    height: 24vw;
+  width: 57.6vh;
+  height: 43.2vh;
 }
