@@ -123,10 +123,17 @@
     left = 10vw;
 }
 
+#vision-camera-img {
+  left: 57.5vw;
+  top:  26vw;
+  width: 32vw;
+  height: 24vw;
+}
+
 .camera-img-class {
     position: fixed;
     left: 57.5vw;
     top: 3vh;
-    width: 40vw;
-    height: 30vw;
+    width: 32vw;
+    height: 24vw;
 }

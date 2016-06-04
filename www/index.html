@@ -52,6 +52,9 @@
     <div id="camera">
         <img class="camera-img-class" id="camera-img" src="http://10.47.74.2:5800/?action=stream" />
     </div>
+    <div id="vision-camera">
+        <img class="camera-img-class" id="vision-camera-img" src="http://10.47.74.2:5801/?action=stream" />
+    </div>
     <select id="auto-choice">
     </select>
 </div>
@@ -64,7 +67,7 @@ var target_range = 1.6;
 var vision_x = 1.0;
 var range = 5.0;
 var shooter_speed = 0.0;
-var intake_state = 0;
+var boulder_state = 0;
 var intake_speed = 0.0;
 var intake_states = {};
 intake_states["0"] = "NO BALL";
@@ -128,7 +131,7 @@ function onValueChanged(key, value, isNew) {
             change_robot_strafe_pos(value);
             vision_x = value;
             break;
-        case "/SmartDashboard/intake_state":
+        case "/SmartDashboard/boulder_state":
             intake_state = value;
             break;
         case "/SmartDashboard/intake_speed":
@@ -148,6 +151,11 @@ function onValueChanged(key, value, isNew) {
     updateDisplays();
 }
 
+function toTitleCase(str)
+{
+    return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+}
+
 function updateDisplays(){
     var onTargetDiv = document.getElementById("ontarget");
     if(vision_x < 0.05 && Math.abs(range-target_range) < 0.1) {
@@ -165,7 +173,7 @@ function updateDisplays(){
         intakeSpeedDiv.style.backgroundColor = "red";
     }
 
-    document.getElementById("intakestate").innerHTML = intake_states[intake_state.toString()]; 
+    document.getElementById("intakestate").innerHTML = toTitleCase(intake_state.replaceAll("_", " "));
 
     var shooterSpeedDiv = document.getElementById("shooterspeed");
 
